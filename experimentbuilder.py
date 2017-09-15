@@ -20,8 +20,10 @@ BINARIES = {
     "nbody6++.avx.gpu.mpi"
 }
 
+
 def cleanup(path):
     os.removedirs(path)
+
 
 def main():
 
@@ -31,7 +33,8 @@ def main():
     args = parser.parse_args()
 
     tm = time.localtime()
-    fname = EXPERIMENT_FMT.format(args.name, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec)
+    fname = EXPERIMENT_FMT.format(
+        args.name, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec)
     exp = EXPERIMENT_PATH.format(fname)
     os.makedirs(exp)
     os.mkdir(exp + "/output")
@@ -42,7 +45,7 @@ def main():
             try:
                 shutil.copyfile(RODIR + "/default.cfg", exp + "/cfg")
                 ret = os.system("{} {}/cfg".format(EDITOR, exp))
-                if ret:
+                if ret != 0:
                     cleanup(exp + "/output")
                     cleanup(exp)
                     raise Exception("Editor returned non-zero error code")
@@ -50,12 +53,12 @@ def main():
                 cleanup(exp + "/output")
                 cleanup(exp)
                 sys.exit(1)
-        try:        
+        try:
             shutil.copyfile(RODIR + "/default.run", exp + "/job.run")
             ret = os.system("{} {}/job.run".format(EDITOR, exp))
-            if ret:
+            if ret != 0:
                 cleanup(exp + "/output")
-                cleanup(exp)            
+                cleanup(exp)
                 raise Exception("Editor returned non-zero error code")
 
         except IOError:
