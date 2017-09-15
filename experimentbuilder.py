@@ -29,7 +29,7 @@ def main():
     tm = time.localtime()
     fname = EXPERIMENT_FMT.format(args.name, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec)
     exp = EXPERIMENT_PATH.format(fname)
-    os.mkdirs(exp)
+    os.makedirs(exp)
     os.mkdir(exp + "/output")
 
     if not args.diffbase:
