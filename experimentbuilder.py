@@ -33,7 +33,7 @@ def main():
     os.mkdir(exp + "/output")
 
     if not args.diffbase:
-        cfg = input("Create new config? [Y/n]")
+        cfg = raw_input("Create new config? [Y/n]\n")
         if cfg.lower() in ['y', 'yes']:
             shutil.copyfile(RODIR + "/default.cfg", exp + "/cfg")
             ret = os.system("{} {}/cfg".format(EDITOR, exp))
