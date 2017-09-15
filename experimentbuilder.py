@@ -8,6 +8,7 @@ Create a run script.
 import argparse
 import os
 import shutil
+import sys
 import time
 
 EDITOR = "emacs -nw"
@@ -18,6 +19,9 @@ EXPERIMENT_PATH = "/home/erubin/thesis/experiments/{}"
 BINARIES = {
     "nbody6++.avx.gpu.mpi"
 }
+
+def cleanup(path):
+    os.removedirs(path)
 
 def main():
 
@@ -35,18 +39,36 @@ def main():
     if not args.diffbase:
         cfg = raw_input("Create new config? [Y/n]\n")
         if cfg.lower() in ['y', 'yes']:
-            shutil.copyfile(RODIR + "/default.cfg", exp + "/cfg")
-            ret = os.system("{} {}/cfg".format(EDITOR, exp))
+            try:
+                shutil.copyfile(RODIR + "/default.cfg", exp + "/cfg")
+                ret = os.system("{} {}/cfg".format(EDITOR, exp))
+                if ret:
+                    cleanup(exp + "/output")
+                    cleanup(exp)
+                    raise Exception("Editor returned non-zero error code")
+            except IOError:
+                cleanup(exp + "/output")
+                cleanup(exp)
+                sys.exit(1)
+        try:        
+            shutil.copyfile(RODIR + "/default.run", exp + "/job.run")
+            ret = os.system("{} {}/job.run".format(EDITOR, exp))
             if ret:
+                cleanup(exp + "/output")
+                cleanup(exp)            
                 raise Exception("Editor returned non-zero error code")
-        shutil.copyfile(RODIR + "/default.run", exp + "/job.run")
-        ret = os.system("{} {}/job.run".format(EDITOR, exp))
-        if ret:
-            raise Exception("Editor returned non-zero error code")
+
+        except IOError:
+            cleanup(exp + "/output")
+            cleanup(exp)
+            sys.exit(1)
 
     # copy binaries
     for binary in BINARIES:
-        shutil.copyfile("{}/{}".format(RODIR, binary), exp)
+        try:
+            shutil.copyfile("{}/{}".format(RODIR, binary), exp)
+        except IOError:
+            print "Error copying binary: {}".format(binary)
 
 
 if __name__ == '__main__':
