@@ -45,10 +45,6 @@ def main():
             try:
                 shutil.copyfile(RODIR + "/default.cfg", exp + "/cfg")
                 ret = os.system("{} {}/cfg".format(EDITOR, exp))
-                if ret != 0:
-                    cleanup(exp + "/output")
-                    cleanup(exp)
-                    raise Exception("Editor returned non-zero error code")
             except IOError:
                 cleanup(exp + "/output")
                 cleanup(exp)
@@ -56,10 +52,6 @@ def main():
         try:
             shutil.copyfile(RODIR + "/default.run", exp + "/job.run")
             ret = os.system("{} {}/job.run".format(EDITOR, exp))
-            if ret != 0:
-                cleanup(exp + "/output")
-                cleanup(exp)
-                raise Exception("Editor returned non-zero error code")
 
         except IOError:
             cleanup(exp + "/output")
