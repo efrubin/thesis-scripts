@@ -14,7 +14,7 @@ import time
 EDITOR = "emacs -nw"
 RODIR = "/home/{}/thesis/rodata".format(os.getlogin())
 EXPERIMENT_FMT = "{}-{}-{}-{}:{}:{}"
-EXPERIMENT_PATH = "/home/erubin/thesis/experiments/{}"
+EXPERIMENT_PATH = "/home/erubin/thesis/gpfs/experiments/{}"
 
 BINARIES = {
     "nbody6++.avx.gpu.mpi"
@@ -62,7 +62,7 @@ def main():
     for binary in BINARIES:
         try:
             print "Copying {}/{}".format(RODIR, binary)
-            shutil.copyfile("{}/{}".format(RODIR, binary), exp + '/' + binary)
+            shutil.copyfile("{}/{}".format(RODIR, binary), "{}/{}".format(exp, binary))
         except IOError as e:
             print e
             print "Error copying binary: {}".format(binary)
