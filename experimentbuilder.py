@@ -63,7 +63,8 @@ def main():
         try:
             print "Copying {}/{}".format(RODIR, binary)
             shutil.copyfile("{}/{}".format(RODIR, binary), exp)
-        except IOError:
+        except IOError e:
+            print e
             print "Error copying binary: {}".format(binary)
 
 
