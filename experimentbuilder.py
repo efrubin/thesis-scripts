@@ -43,7 +43,7 @@ def main():
         cfg = raw_input("Create new config? [Y/n]\n")
         if cfg.lower() in ['y', 'yes']:
             try:
-                shutil.copyfile(RODIR + "/default.cfg", exp + "/cfg")
+                shutil.copyfile(RODIR + "/default.cfg", exp + "/cfg.input")
                 ret = os.system("{} {}/cfg".format(EDITOR, exp))
             except IOError:
                 cleanup(exp + "/output")
@@ -61,6 +61,7 @@ def main():
     # copy binaries
     for binary in BINARIES:
         try:
+            print "Copying {}/{}".format(RODIR, binary)
             shutil.copyfile("{}/{}".format(RODIR, binary), exp)
         except IOError:
             print "Error copying binary: {}".format(binary)
