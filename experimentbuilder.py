@@ -17,7 +17,7 @@ EXPERIMENT_FMT = "{}-{}-{}-{}:{}:{}"
 EXPERIMENT_PATH = "/home/erubin/thesis/gpfs/experiments/{}"
 
 BINARIES = {
-    "nbody6++.avx.gpu.mpi"
+    "nbody6++.avx.gpu.mpi",
     "makemass",
     "makeking",
     "makestars.sh"
