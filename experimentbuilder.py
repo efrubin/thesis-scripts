@@ -18,6 +18,9 @@ EXPERIMENT_PATH = "/home/erubin/thesis/gpfs/experiments/{}"
 
 BINARIES = {
     "nbody6++.avx.gpu.mpi"
+    "makemass",
+    "makeking",
+    "makestars.sh"
 }
 
 
@@ -50,7 +53,7 @@ def main():
                 cleanup(exp)
                 sys.exit(1)
         try:
-            shutil.copyfile(RODIR + "/default.run", exp + "/job.run")
+            shutil.copyfile(RODIR + "/default.run", exp + "/job-{}.run".format(fname))
             ret = os.system("{} {}/job.run".format(EDITOR, exp))
 
         except IOError:
@@ -63,9 +66,16 @@ def main():
         try:
             print "Copying {}/{}".format(RODIR, binary)
             shutil.copyfile("{}/{}".format(RODIR, binary), "{}/{}".format(exp, binary))
+            os.chmod("{}/{}".format(exp, binary), 777)
         except IOError as e:
             print e
             print "Error copying binary: {}".format(binary)
+
+    # edit stars script
+    try:
+        os.system("{} {}".format(EDITOR, "makestars.sh"))
+    except IOError as e:
+        print "Error editing stars script".format(e)
 
 
 if __name__ == '__main__':
