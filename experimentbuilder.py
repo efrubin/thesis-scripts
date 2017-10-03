@@ -54,7 +54,7 @@ def main():
                 sys.exit(1)
         try:
             shutil.copyfile(RODIR + "/default.run", exp + "/job-{}.run".format(fname))
-            ret = os.system("{} {}/job.run".format(EDITOR, exp))
+            ret = os.system("{} {}/job-{}.run".format(EDITOR, exp, fname))
 
         except IOError:
             cleanup(exp + "/output")
