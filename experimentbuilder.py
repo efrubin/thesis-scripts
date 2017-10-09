@@ -73,7 +73,7 @@ def main():
 
     # edit stars script
     try:
-        os.system("{} {}".format(EDITOR, "makestars.sh"))
+        os.system("{} {}/{}".format(EDITOR, exp, "runmcluster.sh"))
     except IOError as e:
         print "Error editing stars script".format(e)
 
