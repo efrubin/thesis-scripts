@@ -18,9 +18,9 @@ EXPERIMENT_PATH = "/home/erubin/thesis/gpfs/experiments/{}"
 
 BINARIES = {
     "nbody6++.avx.gpu.mpi",
-    "makemass",
-    "makeking",
-    "makestars.sh"
+    "mcluster",
+    "fixmcluster.py",
+    "runmcluster.sh"
 }
 
 
