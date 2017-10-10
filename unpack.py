@@ -44,8 +44,8 @@ class DataFile(object):
 
         vels = struct.unpack('{}f'.format(3 * ntot), data[head:tail])
 
-        self.header1 = header1
-        self.header2 = header2
+        self.header1 = self._parseHeaderOne(header1)
+        self.header2 = self._parseHeaderTwo(header2)
         self.masses = masses
         self.rhos = rhos
         self.xns = xns
@@ -64,11 +64,36 @@ class DataFile(object):
 
         return self._init_units()
 
+    def _parseHeaderOne(self, header1):
+        return {'ntot': header1[1], 'nk': header1[4]}
+
+    def _parseHeaderTwo(self, header2):
+        assert len(header2) >= 19
+        return {'time[nb]': header2[0],
+                'npairs': header2[1],
+                'rbar': header2[2],
+                'zmbar': header2[3],
+                'rtide': header2[4],
+                'tidal4': header2[5],
+                'rdens': (header2[6], header2[7], header2[8]),
+                'time/tcr': header2[9],
+                'tscale': header2[10],
+                'vstar': header2[11],
+                'rc': header2[12],
+                'nc': header2[13],
+                'vc': header2[14],
+                'rhom': header2[15],
+                'cmax': header2[16],
+                'rscale': header2[17],
+                'rsmin': header2[18],
+                'dmin1': header2[19]}
+
     def _init_units(self):
 
-        self.to_parsecs = self.header2[2]
-        self.to_solar_mass = self.header2[3]
-        self.to_kms = self.header2[11]
+        self.to_parsecs = self.header2['rbar']
+        self.to_solar_mass = self.header2['zmbar']
+        self.to_kms = self.header2['vstar']
+        self.to_myr = self.header2['tscale']
 
         self.to_sim_length = 1. / self.to_parsecs
         self.to_sim_mass = 1. / self.to_solar_mass
