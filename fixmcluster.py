@@ -3,7 +3,9 @@ import sys
 with sys.stdin as f:
     raw = f.read()
 
-
+# Mcluster outputs a .input file for NBody6.  NBody6++ has a couple of 
+# extra parameters in the input file, so we add them to the first and 
+# 9th lines and reprint.
 lines = raw.split('\n')
 first = lines[0].split()
 lines[0] = ' '.join(map(str, [first[0], first[1], 10, 40, 40, 640]))
