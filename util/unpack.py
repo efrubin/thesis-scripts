@@ -54,8 +54,6 @@ class DataFile(object):
         self.unpacked = True
 
         if numpy:
-            self.header1 = np.array(self.header1)
-            self.header2 = np.array(self.header2)
             self.masses = np.array(self.masses)
             self.rhos = np.array(self.rhos)
             self.xns = np.array(self.xns)
